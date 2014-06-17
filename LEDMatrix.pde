@@ -51,14 +51,14 @@
 
 #define gridRows 10
 #define gridCols 10
-#define LEDRefreshCounterMax 10
+#define LEDRefreshCounterMax 1
 #define lastPatternTimeMax 900
 #define lastResetTimeMax 80000
 
 #define blinkTime 300
 
 //GOL defs
-#define GOLStartingNum 30
+#define GOLStartingNum 25
 
 void toggleLED(int xCoord, int yCoord);
 void updatePattern(void);
@@ -72,8 +72,6 @@ int currentLocX = 0;
 int currentLocY = 0;
 
 void setup(void){
-	Serial.begin(9600);
-	
 	randomSeed(analogRead(A0));
 	
 	setupUsedPins();
@@ -86,19 +84,16 @@ void setup(void){
 }
 
 void loop(void){
-	
 	//update pattern on LED matrix
 	if(millis() - lastPatternTime > lastPatternTimeMax){
 		updatePattern();
 		lastPatternTime = millis();
 	}
-	
 	//update LED matrix
 	if(millis() - lastLEDRefreshTime > LEDRefreshCounterMax){
 		printLEDScreen();
 		lastLEDRefreshTime = millis();
 	}
-	
 	//test for timeout of game
 	if(millis() - lastResetTime > lastResetTimeMax){
 		//reinitialize matrix
@@ -119,7 +114,7 @@ void setupUsedPins(void){
 }
 
 void updatePattern(void){
-		int cellCounter;
+	int cellCounter;
 	//update GOL
 	for(int y = 0; y < gridRows; y++){
 		for(int x= 0; x < gridCols; x++){
@@ -151,26 +146,16 @@ void updatePattern(void){
 				//left coord
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
-				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
-				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
-				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
+				//modify depending on number of live cells
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
+				
+				else if(cellCounter == 2);
+					//do nothing
+					
+				else
+					gameGrid[y][x] = 1;
 			}
 
 			//top-left corner
@@ -200,25 +185,15 @@ void updatePattern(void){
 				if(gameGrid[y][x+(gridCols-1)] == 1)
 					cellCounter++;
 				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
+				else
+					gameGrid[y][x] = 1;
 			}
 			
 			//top-right corner
@@ -248,26 +223,15 @@ void updatePattern(void){
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
 				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
+				else
+					gameGrid[y][x] = 1;
 			}
 
 			//lower-right corner
@@ -297,26 +261,15 @@ void updatePattern(void){
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
 				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
+				else
+					gameGrid[y][x] = 1;
 			}
 			
 			//lower-left corner
@@ -346,26 +299,15 @@ void updatePattern(void){
 				if(gameGrid[y][x+(gridCols-1)] == 1)
 					cellCounter++;
 				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
+				else
+					gameGrid[y][x] = 1;
 			}
 					
 			//top edge
@@ -394,27 +336,6 @@ void updatePattern(void){
 				//left coord
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
-				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
-				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
-				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
-					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-				
 			}
 			
 			//lower edge
@@ -444,26 +365,15 @@ void updatePattern(void){
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
 				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
+				else
+					gameGrid[y][x] = 1;
 			}
 			
 			//left edge
@@ -492,27 +402,16 @@ void updatePattern(void){
 				//left coord
 				if(gameGrid[y][x+(gridCols-1)] == 1)
 					cellCounter++;
-				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
+
 				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
 				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
+				else if(cellCounter == 2);
+					//do nothing
 					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
+				else
+					gameGrid[y][x] = 1;
 			}
 			
 			//right edge
@@ -541,51 +440,19 @@ void updatePattern(void){
 				//left coord
 				if(gameGrid[y][x-1] == 1)
 					cellCounter++;
-				
-				//Serial.print("cellCounter: ");
-				//Serial.println(cellCounter);
-				//modify depending on number of live cells
-				if((gameGrid[y][x] == 0) && (cellCounter == 3)){
-					gameGrid[y][x] = 1;
-					//Serial.println("in dead");
-				}
-				else if(gameGrid[y][x] == 1){
-				
-					if((cellCounter < 2) || (cellCounter > 3)){
-						gameGrid[y][x] = 0;
-						//Serial.println("in alive and dying");
-					}
-					
-					else{
-						gameGrid[y][x] = 1;
-						//Serial.println("in alive and living");
-					}
-				}
-			
-			}
-			
-		}
-		
-	}
 
-//running LED
-/*
-	gameGrid[currentLocX][currentLocY] = 0;
-	
-	if(currentLocX == 9){
-		currentLocX = 0;
-		if(currentLocY == 9){
-			currentLocY = 0;
-		}
-		else{
-			currentLocY++;
+				//modify depending on number of live cells
+				if(cellCounter < 2 || cellCounter > 3)
+					gameGrid[y][x] = 0;
+				
+				else if(cellCounter == 2);
+					//do nothing
+					
+				else
+					gameGrid[y][x] = 1;
+			}	
 		}
 	}
-	else{
-		currentLocX++;
-	}
-	
-	gameGrid[currentLocX][currentLocY] = 1;*/
 }
 
 void clearGOLMatrix(void){
@@ -611,35 +478,21 @@ void initGOLMatrix(void){
 	}	
 }
 
-void printGameGridToSerial(void){
-	Serial.println("Printing gameGrid");
-	
-	//print gameGrid
-	for(int i = 0; i < gridRows; i++)
-	{
-		for(int j = 0; j < gridCols; j++)
-		{
-			Serial.print(gameGrid[i][j], BIN);
-		}
-		Serial.println();
-	}
-}
-
 void printLEDScreen(void){
 	for(int i = 0; i < gridRows; i++){
 		for(int j = 0; j < gridCols; j++){
 			if(gameGrid[i][j] == 1)
-				toggleLED(i,j);
+			{
+				digitalWrite(posPins[i], HIGH);
+				digitalWrite(negPins[j], LOW);
+				
+				delayMicroseconds(blinkTime);
+				
+				digitalWrite(posPins[i], LOW);
+				digitalWrite(negPins[j], HIGH);
+				//toggleLED(i,j);
+			}
 		}
 	}
 }
 
-void toggleLED(int xCoord, int yCoord){
-	digitalWrite(posPins[xCoord], HIGH);
-	digitalWrite(negPins[yCoord], LOW);
-	
-	delayMicroseconds(blinkTime);
-	
-	digitalWrite(posPins[xCoord], LOW);
-	digitalWrite(negPins[yCoord], HIGH);
-}
